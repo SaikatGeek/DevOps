@@ -10,6 +10,7 @@ Images
 ## 🛠 Steps to Set Up the Network
 
 ### 1️. Create Network Bridges
+Create br0 and br1 bridges and up theses bridges
 ```sh
 sudo ip link add br0 type bridge
 sudo ip link add br1 type bridge
@@ -22,6 +23,7 @@ ip link show br0
 ip link show br1
 ```
 ### 2. Create Network Namespaces
+Create ns1, ns2 and router-ns namespaces
 ```sh
 sudo ip netns add ns1
 sudo ip netns add ns2
@@ -109,3 +111,10 @@ sudo ip netns exec router-ns ping -c 2 10.12.0.10
 sudo ip netns exec ns1 ping -c 2 10.12.0.10
 sudo ip netns exec ns2 ping -c 2 10.11.0.10
 ```
+### 7. Cleanup
+```sh
+sudo ip netns del ns1
+sudo ip netns del ns2
+sudo ip netns del router-ns
+sudo ip link del br0
+sudo ip link del br1
