@@ -4,13 +4,12 @@ This assignement sets up a **virtual network topology** using Linux network name
 
 ## Network Topology
 
-Images
+![Topology](https://github.com/SaikatGeek/DevOps/blob/main/topology.jpg?raw=true)
 
-
-## 🛠 Steps to Set Up the Network
+## Steps to Set Up the Network
 
 ### 1️. Create Network Bridges
-Create br0 and br1 bridges and up theses bridges
+Create br0 and br1 bridges and up these bridges
 ```sh
 sudo ip link add br0 type bridge
 sudo ip link add br1 type bridge
@@ -62,6 +61,7 @@ sudo ip netns exec ns2 ip link show
 sudo ip netns exec router-ns ip link show
 ```
 ### 4. Configure IP Addresses
+Assign IP addresses to interfaces in namespaces and bridges
 
 | Namespace   | Interface   | IP Address     | Subnet          |
 |-------------|-------------|----------------|-----------------|
@@ -78,17 +78,23 @@ sudo ip netns exec router-ns ip addr add 10.11.0.1/24 dev veth-r-ns1
 sudo ip netns exec router-ns ip addr add 10.12.0.1/24 dev veth-r-ns2
 ```
 #### Verify
+Check IP address assignment
+
 ```sh
 sudo ip netns exec ns1 ip addr show
 sudo ip netns exec ns2 ip addr show
 sudo ip netns exec router-ns ip addr show
 ```
 ### 5. Set Up Routing
+Configure routing within namespaces and enable IP forwarding
+
 ```sh
 sudo ip netns exec ns1 ip route add default via 10.11.0.1
 sudo ip netns exec ns2 ip route add default via 10.12.0.1
 ```
-## Enable Ip forwarding:
+#### Enable Ip forwarding:
+Allow packet forwarding process
+
 ```sh
 sudo sysctl -w net.ipv4.ip_forward=1
 sudo ip netns exec router-ns sysctl -w net.ipv4.ip_forward=1
@@ -100,6 +106,8 @@ sudo ip netns exec ns2 ip route show
 sudo ip netns exec router-ns ip route show
 ```
 ### 6. Test Connectivity
+Ping between namespaces by the router
+
 Ping:
 ```sh
 sudo ip netns exec ns1 ping -c 2 10.11.0.1
@@ -112,6 +120,8 @@ sudo ip netns exec ns1 ping -c 2 10.12.0.10
 sudo ip netns exec ns2 ping -c 2 10.11.0.10
 ```
 ### 7. Cleanup
+Delete namespaces and bridges
+
 ```sh
 sudo ip netns del ns1
 sudo ip netns del ns2
