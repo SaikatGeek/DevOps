@@ -1,4 +1,4 @@
-# Network Namespace Routing with Bridges
+# Network Namespace Routing with Bridge (Container Network - Assignment 1)
 
 This assignement sets up a **virtual network topology** using Linux network namespaces, bridges, and routing. It enables communication between two namespaces (`ns1` and `ns2`) through a **router namespace (`router-ns`)**.
 
